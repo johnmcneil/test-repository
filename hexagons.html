@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>
+Hexagons
+</title>
+<link rel="stylesheet" type="text/css" href="hexagons.css" >
+</link>
+
+<body>
+
+<div class="hexagonworld" id="target">
+</div>
+
+<!--<div class="size_1 hexagon-wrapper"><div class="hexagon"></div></div>-->
+
+<script>
+var getRandomColor  =function(){
+return (function(m,s,c){return (c ? arguments.callee(m,s,c-1) : '#') +
+  s[m.floor(m.random() * s.length)]})(Math,'0123456789ABCDEF',5);
+};
+
+var hexwidth = 50;
+var hexheight = 58;
+
+var hexRows = [];
+var hexes = [];
+var target = document.getElementById("target");
+
+for ( x  = 0; x < 10; x++ ) {
+	
+	var hexRow = [];
+	var even = !(x % 2);
+
+	hexRows[x] = hexRow;
+
+	var tempXoffset = hexwidth + (x*hexwidth);
+	var tempYoffset = hexheight + (x*hexheight);
+
+	for ( y = 0; y < 20; y++ ) {
+
+		var even = !(y % 2);
+		console.log("even", even,"y", y);
+
+
+		hexRow[y] = [];
+
+		hexRow[y]['Xoffset'] = (tempXoffset*y)/2;
+		hexRow[y]['Yoffset'] = tempYoffset;
+		if(even){
+			hexRow[y]['Yoffset'] =  tempYoffset * 3/4; 
+		}else{
+			hexRow[y]['Yoffset'] = tempYoffset;
+		}/*8*/
+			
+	}
+
+
+
+}
+
+
+console.log('hexRows',hexRows);
+
+
+
+for ( x  = 0; x < hexRows.length; x++ ) {
+//console.log('hexRows2',hexRows);
+//render row
+	for ( y = 0; y < hexRows[x].length; y++ ) {
+
+		var temp = document.createElement('div');
+		var child = document.createElement('div');
+
+		temp.className = 'hexagon-wrapper';
+		child.className = 'hexagon';
+
+		                                                      console.log('looking for:',y,x,hexRows[x]);
+
+		var offsetY = hexRows[x][y]['Xoffset'];
+		var offsetX = hexRows[x][y]['Yoffset'];
+
+		temp.title = '['+x+']['+y+']';
+
+temp.style.opacity =  .5;
+		temp.style.top =  offsetX+'px';
+		temp.style.left = offsetY+'px';
+
+		target.appendChild(temp);
+		temp.appendChild(child);
+	  	child.style.background = getRandomColor();
+
+	  	//console.log(temp);
+
+	}
+
+}
+
+
+
+</script>
