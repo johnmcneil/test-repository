@@ -2,79 +2,54 @@
 <html>
 	<head>		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<style> 
-			body {
-				display: block;
-				width: 100%;
-				height: 100%;
-				position: absolute;
-			}
-			div { 
-				font-family: monospace; 
-				display: inline-block;
-
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-			}
-			h1.rotating {
-			  animation: animationFrames linear 4s;
-			  animation-iteration-count: infinite;
-			  
-			  transform-origin: 50% 50%;
-			  
-			}
-
-			@keyframes animationFrames{
-			  0% {
-			    transform:  rotate(0deg) ;
-			  }
-			  100% {
-			    transform:  rotate(360deg) ;
-			  }
-			}
-
-			@-moz-keyframes animationFrames{
-			  0% {
-			    -moz-transform:  rotate(0deg) ;
-			  }
-			  100% {
-			    -moz-transform:  rotate(360deg) ;
-			  }
-			}
-
-			@-webkit-keyframes animationFrames {
-			  0% {
-			    -webkit-transform:  rotate(0deg) ;
-			  }
-			  100% {
-			    -webkit-transform:  rotate(360deg) ;
-			  }
-			}
-
-			@-o-keyframes animationFrames {
-			  0% {
-			    -o-transform:  rotate(0deg) ;
-			  }
-			  100% {
-			    -o-transform:  rotate(360deg) ;
-			  }
-			}
-
-			@-ms-keyframes animationFrames {
-			  0% {
-			    -ms-transform:  rotate(0deg) ;
-			  }
-			  100% {
-			    -ms-transform:  rotate(360deg) ;
-			  }
-			}
-		</style>
+		<script src="lib/BHex/BHex.Core.js"></script>
+		<script src="lib/BHex/BHex.Drawing.js"></script>
+		<script src="lib/BHex/BinaryHeap.js"></script>
+		<script src="lib/jquery-3.2.1.min.js"></script>
 	</head>
-	<body>
-		<div>
-			<h1 class="rotating">here is our map project</h1>
+	<body style="width:100%; height:100%;">
+		<div id="target" style="position:absolute; top:50%; left:50%;">
 		</div>
+
+		<script>
+
+
+
+var draw_hex = function(hex){
+
+		console.log(hex);
+
+		var template = ''+
+		'<svg id="hex_'+hex.x+'_'+hex.y+'" style="position:absolute; width:45px; height:45px; top:'+hex.center.x+'px; left:'+hex.center.y+'px;"'+
+		'viewBox="0 0 164.21 189.613" enable-background="new 0 0 164.21 189.613" xml:space="preserve" >'+
+		'<polygon fill="rgba(0,0,0,'+Math.random()*.5+')" points="0,142.21 0,47.403 82.105,0 164.21,47.403 164.21,142.21 82.105,189.613 "/>'+
+		'</svg>';
+
+	 	return $target.append(template).find('svg#hex_'+hex.x+'_'+hex.y)[0];
+
+}
+
+// Setup options: Size of the a single side, orientation (or PointyTop) and where the center of the grid should be.
+
+var $target = $('#target');
+// Create the grid as before.
+
+// Setup options: Size of the a single side, orientation (or PointyTop) and where the center of the grid should be.
+var options = new BHex.Drawing.Options(23, BHex.Drawing.Static.Orientation.FlatTop, new BHex.Drawing.Point(0, 0));
+
+// Create the grid as before.
+var Map = new BHex.Grid(8);//.forDrawing(options);
+Map = new BHex.Drawing.Drawing(Map,options);
+
+
+console.log(Map);
+
+for (var i = 0; i < Map.grid.hexes.length; i++) {
+	var hex = Map.grid.hexes[i];
+	hex.element = draw_hex(hex);
+};
+
+
+		</script>
 	</body>
 </html>
